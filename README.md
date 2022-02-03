@@ -157,3 +157,5 @@ You should be able to get a 128-dimensional vector describing the face in the im
 }
 
 ```
+## References
+https://github.com/ageitgey/face_recognition
