@@ -13,6 +13,7 @@ docker run -d -p 80:9801 josephchen1/fr-api-server
 ```
 If you are using a Mac with an M1 chip, you might want to run the pre-built image instead of building one.
 You sould use the `--platform` flag to ensure your serving platform matches the image's.
+
 `docker run -p 80:9801 --platform linux/arm64 fr-api-server`
 ### Interfaces
 Open your browser and go to `localhost`. You should see the following page.
