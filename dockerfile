@@ -1,9 +1,8 @@
-FROM python:3.8.12 as compiled
-WORKDIR /app
-COPY ./requirements.txt .
-RUN pip install -U pip wheel cmake
-RUN pip install --user -r requirements.txt
+FROM animcogn/face_recognition
 
-FROM baseImage
-ADD . /app
-CMD ["python", "app.py"]
+COPY requirements.txt requirements.txt
+
+RUN pip3 install -r ./requirements.txt
+
+COPY . /app
+CMD ["python3", "/app/app.py"]
