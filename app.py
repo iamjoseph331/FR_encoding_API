@@ -1,4 +1,7 @@
+from xml.etree.ElementTree import tostring
 from flask import Flask, flash, request, redirect
+import numpy as np
+import time
 import face_recognition
 
 UPLOAD_FOLDER = '/Users/joseph.chen/Charizard/mlflow/test'
@@ -14,19 +17,23 @@ def allowed_file(filename):
 
 @app.route('/encode', methods=['POST'])
 def encode_upload():
+    t0 = time.time()
     if 'file' not in request.files:
         print('No file part')
-        return redirect(request.url)
+        return
     file = request.files['file']
     # If the user does not select a file, the browser submits an
     # empty file without a filename.
     if file.filename == '':
         print('No selected file')
-        return redirect(request.url)
+        return 
     if file and allowed_file(file.filename):
         image1 = face_recognition.load_image_file(file)
+        t1 = time.time()
         face_encoding1 = face_recognition.face_encodings(image1)[0]
-        print(face_encoding1)
+        t2 = time.time()
+        print("Total: " + str(t2 - t0) + ", FR: " + str(t2 - t1))
+        face_encoding1 = face_encoding1 / np.linalg.norm(face_encoding1)
         return {"Result": face_encoding1.tolist()}
     return {"Result": "Error"}
 
@@ -46,6 +53,7 @@ def upload_file():
         if file and allowed_file(file.filename):
             image1 = face_recognition.load_image_file(file)
             face_encoding1 = face_recognition.face_encodings(image1)[0]
+            face_encoding1 = face_encoding1 / np.linalg.norm(face_encoding1)
             return {"Result": face_encoding1.tolist()}
     print(request.method)
     return '''
